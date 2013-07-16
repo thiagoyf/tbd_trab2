@@ -1,0 +1,31 @@
+﻿html, body{
+	margin: 0px;
+	padding: 0px;
+}
+
+#left{
+	float: left;
+	width: 330px;
+	border: 1px;
+	border-color: black;
+	border-style: solid;
+}
+
+#main{
+	margin: 5px;
+	width: 1300px;
+	float: left;
+}
+
+#top{
+	height: 174px;
+}
+
+#main-context{
+	
+}
+
+#sql-content{
+	width: 100%;
+	height: 400;
+}
