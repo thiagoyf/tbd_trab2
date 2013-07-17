@@ -3,18 +3,22 @@ namespace database;
 require 'conf/db.php';
 
 class Connection {
-    private $conn;
+    private static $conn;
+    private function __construct() {}
 
-    private function __construct()
-    {
-        if ($this->conn == null) {
-            $pdo = new \PDO(
-                \DB_Config::$DB_CONF['driver'] . ":dbname=" . \DB_Config::$DB_CONF['database'] . ";" .
-                \DB_Config::$DB_CONF['host'] . ":" . \DB_Config::$DB_CONF['port'],
-                \DB_Config::$DB_CONF['user'], \DB_Config::$DB_CONF['password']);
+    public static function getConnection() {
+        try {
+            if (self::$conn == null) {
+                self::$conn = new \PDO(
+                    \DB_Config::$DB_CONF['driver'] . ":dbname=" . \DB_Config::$DB_CONF['database'] . ";" .
+                    \DB_Config::$DB_CONF['host'] . ":" . \DB_Config::$DB_CONF['port'],
+                    \DB_Config::$DB_CONF['user'], \DB_Config::$DB_CONF['password']);
+            }
+            return self::$conn;
 
+        } catch (\PDOException $e) {
+            throw $e;
         }
     }
-
 
 }
