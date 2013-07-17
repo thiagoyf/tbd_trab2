@@ -1,4 +1,5 @@
 <?php
+    require_once 'helpers/PageHelper.php';
     require_once 'model/Connection.php';
     require_once 'model/DBQuerier.php';
 
