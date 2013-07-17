@@ -1,10 +1,22 @@
 <?php
-require_once 'model/Connection.php';
-require_once 'model/DBQuerier.php';
+    require_once 'model/Connection.php';
+    require_once 'model/DBQuerier.php';
 
-$pdo = \database\Connection::getConnection();
-$querier = new \database\DBQuerier($pdo);
+    $pdo = \database\Connection::getConnection();
+    $querier = new \database\DBQuerier($pdo);
 
+    if (isset($_GET['act'])) {
+        switch ($_GET['act']) {
+            case 've':
+                $page = 'show_table_data';
+                break;
+            case 'vd':
+                $page = 'show_table_structure';
+                break;
+            default:
+                $page = null;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -32,17 +44,16 @@ $querier = new \database\DBQuerier($pdo);
                         </div>
                         <div id="<?php echo $schema['schema_name']; ?>" class="accordion-body collapse">
                             <div class="accordion-inner">
-                                    <?php foreach($querier->getAllTablesFromSchema($schema['schema_name']) as $table) {?>
+                                <?php foreach($querier->getAllTablesFromSchema($schema['schema_name']) as $table) {?>
                                 <ul class="nav nav-list">
-
                                 <li class="nav-header"><?php echo $table['table_name'];?></a></li>
-
-                                    <a class="btn btn-small" href="#?">Visualizar Dados</a>
-                                    <a class="btn btn-small" href="#?">Visualizar Estrutura</a>
+                                    <?php
+                                        echo "<a class='btn btn-small' href='index.php?act=vd&schema=" . $schema['schema_name'] . "&table=" . $table['table_name'] . "'>Visualizar Dados</a>";
+                                        echo "<a class='btn btn-small' href='index.php?act=ve&schema=" . $schema['schema_name'] . "&table=" . $table['table_name'] . "'>Visualizar Estrutura</a>";
+                                    ?>
                                 </ul>
-                                        <hr>
-                                    <?php }?>
-
+                                <hr>
+                                <?php }?>
                             </div>
                         </div>
                     </div>
@@ -53,58 +64,17 @@ $querier = new \database\DBQuerier($pdo);
 
         <div class="span8 main">
             <div class="hero-unit">
-				<form method="post" action="index.php">
+				<form method="post" action="#">
 					<textarea rows="10" class="span12"></textarea>
 					<input type="submit" class="btn btn-primary" value="Executar"/>
 				</form>
             </div>
             <div class="row-fluid">
-				<table class="table table-striped">
-					<?php
-						echo "<tr>";
-							echo "<th>";
-							echo "title1";
-							echo "</th>";
-							echo "<th>";
-							echo "title2";
-							echo "</th>";
-							echo "<th>";
-							echo "title3";
-							echo "</th>";
-							echo "<th>";
-							echo "title4";
-							echo "</th>";
-						echo "</tr>";
-						echo "<tr>";
-							echo "<th>";
-							echo "1,1";
-							echo "</th>";
-							echo "<th>";
-							echo "1,2";
-							echo "</th>";
-							echo "<th>";
-							echo "1,3";
-							echo "</th>";
-							echo "<th>";
-							echo "1,4";
-							echo "</th>";
-						echo "</tr>";
-						echo "<tr>";
-							echo "<th>";
-							echo "2,1";
-							echo "</th>";
-							echo "<th>";
-							echo "2,2";
-							echo "</th>";
-							echo "<th>";
-							echo "2,3";
-							echo "</th>";
-							echo "<th>";
-							echo "2,4";
-							echo "</th>";
-						echo "</tr>";
-					?>
-				</table>
+                <?php
+                    if (isset($page)) {
+                        include_once('view/' . $page . ".php");
+                    }
+                ?>
             </div>
         </div>
     </div>
