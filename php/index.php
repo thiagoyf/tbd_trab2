@@ -20,7 +20,7 @@ $querier = new \database\DBQuerier($pdo);
 <body>
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span3 hierarchy-tree">
+        <div class="span4 hierarchy-tree">
             <div class="well sidebar-nav">
                 <div class="accordion" id="database">
                     <?php foreach ($querier->getAllSchemas() as $schema) { ?>
@@ -32,7 +32,17 @@ $querier = new \database\DBQuerier($pdo);
                         </div>
                         <div id="<?php echo $schema['schema_name']; ?>" class="accordion-body collapse">
                             <div class="accordion-inner">
-                                    asdasd
+                                    <?php foreach($querier->getAllTablesFromSchema($schema['schema_name']) as $table) {?>
+                                <ul class="nav nav-list">
+
+                                <li class="nav-header"><?php echo $table['table_name'];?></a></li>
+
+                                    <a class="btn btn-small" href="#?">Visualizar Dados</a>
+                                    <a class="btn btn-small" href="#?">Visualizar Estrutura</a>
+                                </ul>
+                                        <hr>
+                                    <?php }?>
+
                             </div>
                         </div>
                     </div>
@@ -41,7 +51,7 @@ $querier = new \database\DBQuerier($pdo);
               </div>
         </div>
 
-        <div class="span7 main">
+        <div class="span8 main">
             <div class="hero-unit">
 				<form method="post" action="index.php">
 					<textarea rows="10" class="span12"></textarea>

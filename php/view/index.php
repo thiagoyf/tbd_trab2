@@ -33,7 +33,8 @@
 					<!-- listagem de databases e esquemas -->
 					<div id="column-left">
 						<?php
-							$pdo = new PDO('pgsql:dbname=daivid;host=localhost', 'postgres', 'postgres');
+                            require_once '../model/Connection.php';
+                            $pdo = \database\Connection::getConnection();
 							$dados = $pdo->query("select schema_name from information_schema.schemata where schema_name not like 'pg_%' and schema_name not in ('information_schema')");
 							foreach($dados as $row){
 								echo $row['schema_name'] . "<br>";
