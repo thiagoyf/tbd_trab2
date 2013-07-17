@@ -43,10 +43,58 @@ $querier = new \database\DBQuerier($pdo);
 
         <div class="span7 main">
             <div class="hero-unit">
-
+				<form method="post" action="index.php">
+					<textarea rows="10" class="span12"></textarea>
+					<input type="submit" class="btn btn-primary" value="Executar"/>
+				</form>
             </div>
             <div class="row-fluid">
-
+				<table class="table table-striped">
+					<?php
+						echo "<tr>";
+							echo "<th>";
+							echo "title1";
+							echo "</th>";
+							echo "<th>";
+							echo "title2";
+							echo "</th>";
+							echo "<th>";
+							echo "title3";
+							echo "</th>";
+							echo "<th>";
+							echo "title4";
+							echo "</th>";
+						echo "</tr>";
+						echo "<tr>";
+							echo "<th>";
+							echo "1,1";
+							echo "</th>";
+							echo "<th>";
+							echo "1,2";
+							echo "</th>";
+							echo "<th>";
+							echo "1,3";
+							echo "</th>";
+							echo "<th>";
+							echo "1,4";
+							echo "</th>";
+						echo "</tr>";
+						echo "<tr>";
+							echo "<th>";
+							echo "2,1";
+							echo "</th>";
+							echo "<th>";
+							echo "2,2";
+							echo "</th>";
+							echo "<th>";
+							echo "2,3";
+							echo "</th>";
+							echo "<th>";
+							echo "2,4";
+							echo "</th>";
+						echo "</tr>";
+					?>
+				</table>
             </div>
         </div>
     </div>
