@@ -9,10 +9,10 @@
     if (isset($_GET['act'])) {
         switch ($_GET['act']) {
             case 've':
-                $page = 'show_table_data';
+                $page = 'show_table_structure';
                 break;
             case 'vd':
-                $page = 'show_table_structure';
+                $page = 'show_table_data';
                 break;
             default:
                 $page = null;

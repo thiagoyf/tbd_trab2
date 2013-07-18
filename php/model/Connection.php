@@ -11,7 +11,7 @@ class Connection {
             if (self::$conn == null) {
                 self::$conn = new \PDO(
                     \DB_Config::$DB_CONF['driver'] . ":dbname=" . \DB_Config::$DB_CONF['database'] . ";" .
-                    \DB_Config::$DB_CONF['host'] . ":" . \DB_Config::$DB_CONF['port'],
+                    "host=" . \DB_Config::$DB_CONF['host'] . ";port=" . \DB_Config::$DB_CONF['port'],
                     \DB_Config::$DB_CONF['user'], \DB_Config::$DB_CONF['password']);
             }
             return self::$conn;
