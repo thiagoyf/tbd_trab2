@@ -66,7 +66,7 @@
         <div class="span8 main">
             <div class="hero-unit">
 				<form method="post" action="#">
-					<textarea rows="10" class="span12"></textarea>
+					<textarea name="sql" rows="10" class="span12"></textarea>
 					<input type="submit" class="btn btn-primary" value="Executar"/>
 				</form>
             </div>
@@ -75,6 +75,11 @@
                     if (isset($page)) {
                         include_once('view/' . $page . ".php");
                     }
+					
+					//var_dump($querier->getConsultString($_POST["sql"]));
+					$tables = $querier->getConsultString($_POST["sql"]);
+					$querier->printResultsQueriesTables($tables);
+					
                 ?>
             </div>
         </div>

@@ -81,4 +81,76 @@ class DBQuerier {
         }
     }
 
+	/* Pega a string de queries */
+	public function getConsultString($queries_string) {
+		try {
+			$queries_string = explode(";", $queries_string);
+			$tables = array();
+			
+			foreach ($queries_string as $value) {
+				$table = self::executeQuery(trim($value));
+				if($table != NULL) {
+					$tables[] = $table;
+				} 
+			}
+			
+			if(empty($tables))
+				return NULL;
+			
+			return $tables;
+		}
+		catch (\PDOException $e) {
+        }
+	}
+	
+	/* Executa a query */
+	private function executeQuery($query) {
+		$st = $this->_conn->prepare($query);
+		$st->execute();
+		
+		$res = $st->fetchAll(\PDO::FETCH_ASSOC);
+		
+		$table = array();
+		foreach ($res as $row) {
+			$table[] = $row;
+		}
+		
+		if(empty($table))
+			return NULL;
+			
+		return $table;
+	} 
+	
+	/* Imprime as tabelas com o resultado das queries */
+	public function printResultsQueriesTables($tables){
+		if(empty($tables) == false){
+			foreach($tables as $table) {
+				echo "<table class='table table-striped table-hover table-bordered'>";
+				self::printTable($table);
+				echo "</table>";
+			}
+		}
+	}
+	
+	/* Imprime uma tabela com o resultado de uma query */
+	private function printTable($table){
+		echo "<tr>";
+		$titles = array_keys($table[0]);
+		foreach($titles as $title) {
+			echo "<th>";
+			echo $title;
+			echo "</th>";
+		}
+		echo "</tr>";
+		
+		foreach($table as $line) {
+			echo "<tr>";
+			foreach($line as $value) {
+				echo "<td>";
+				echo $value;
+				echo "</td>";
+			}
+			echo "</tr>";
+		}
+	}
 }
