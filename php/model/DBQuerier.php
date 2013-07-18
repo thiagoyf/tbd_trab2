@@ -60,7 +60,7 @@ class DBQuerier {
         $st->execute();
 
         $res = $st->fetch(\PDO::FETCH_ASSOC);
-        return $res['is_pk'];
+        return $res['is_pk'] ? "sim":"não";
     }
 
     public function getStructureFromTableInSchema($table, $schema) {
@@ -121,36 +121,5 @@ class DBQuerier {
 		return $table;
 	} 
 	
-	/* Imprime as tabelas com o resultado das queries */
-	public function printResultsQueriesTables($tables){
-		if(empty($tables) == false){
-			foreach($tables as $table) {
-				echo "<table class='table table-striped table-hover table-bordered'>";
-				self::printTable($table);
-				echo "</table>";
-			}
-		}
-	}
-	
-	/* Imprime uma tabela com o resultado de uma query */
-	private function printTable($table){
-		echo "<tr>";
-		$titles = array_keys($table[0]);
-		foreach($titles as $title) {
-			echo "<th>";
-			echo $title;
-			echo "</th>";
-		}
-		echo "</tr>";
-		
-		foreach($table as $line) {
-			echo "<tr>";
-			foreach($line as $value) {
-				echo "<td>";
-				echo $value;
-				echo "</td>";
-			}
-			echo "</tr>";
-		}
-	}
+
 }
