@@ -42,10 +42,14 @@
                     <p>
                         <?php
                             $info = $querier->getDatabaseInfo();
-                            echo "<b>Banco:</b> ". $info['db'] . "<br>";
-                            echo "<b>Endereço:</b> ". $info['server'] . "<br>";
-                            echo "<b>Porta:</b> ". $info['port'] . "<br>";
-                            echo "<b>Versão:</b> ". $info['version'] . "<br>";
+							$client_encoding = $querier->getClientEncoding();
+							$size_database = $querier->getSizeDataBase($info['db']);
+                            echo "<b>Banco:</b> " . $info['db'] . "<br>";
+							echo "<b>Codificação:</b> " . $client_encoding['client_encoding'] . "<br>";
+							echo "<b>Tamanho:</b> " . $size_database['pg_size_pretty'] . "<br>";
+                            echo "<b>Endereço:</b> " . $info['server'] . "<br>";
+                            echo "<b>Porta:</b> " . $info['port'] . "<br>";
+                            echo "<b>Versão:</b> " . $info['version'] . "<br>";
                         ?>
                     </p>
                 </div>

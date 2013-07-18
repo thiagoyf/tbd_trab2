@@ -17,6 +17,8 @@ class DBQuerier {
     protected static $query_schema_table_structure = "SELECT column_name, data_type, is_nullable, column_default, null is_pk FROM information_schema.columns WHERE table_schema || '.' || table_name = ? || '.' ||?";
     protected static $query_schema_table_structure_column_is_pk = "SELECT bool(count(*)>0) is_pk FROM information_schema.key_column_usage K NATURAL JOIN information_schema.table_constraints C WHERE C.table_schema || '.' || C.table_name = ? || '.' ||? AND C.constraint_type='PRIMARY KEY' and K.column_name=?";
     protected static $query_database_info = "SELECT current_database as db, inet_server_addr as server, inet_server_port as port, version from current_database(), inet_server_addr(), inet_server_port(), version()";
+	protected static $client_encoding = "SHOW client_encoding";
+	protected static $size_database = "SELECT * from pg_size_pretty(pg_database_size('?'))";
     public function __construct(\PDO $conn) {
         $this->_conn = $conn;
     }
@@ -117,6 +119,22 @@ class DBQuerier {
     public function getDatabaseInfo() {
         $st = $this->_conn->prepare(self::$query_database_info);
         $st->execute();
+		
         return $st->fetch(\PDO::FETCH_ASSOC);
     }
+	
+	public function getClientEncoding() {
+		$st = $this->_conn->prepare(self::$client_encoding);
+        $st->execute();
+		
+        return $st->fetch(\PDO::FETCH_ASSOC);
+	}
+	
+	public function getSizeDataBase($database) {
+		$st = $this->_conn->prepare(self::$size_database);
+		$st->bindParam(1, $database);
+        $st->execute();
+		
+		return $st->fetch(\PDO::FETCH_ASSOC);
+	}
 }
