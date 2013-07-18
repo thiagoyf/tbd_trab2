@@ -41,15 +41,14 @@
                 <div class="well">
                     <p>
                         <?php
-                            $info = $querier->getDatabaseInfo();
-							$client_encoding = $querier->getClientEncoding();
-							$size_database = $querier->getSizeDataBase($info['db']);
-                            echo "<b>Banco:</b> " . $info['db'] . "<br>";
-							echo "<b>Codificação:</b> " . $client_encoding['client_encoding'] . "<br>";
-							echo "<b>Tamanho:</b> " . $size_database['pg_size_pretty'] . "<br>";
-                            echo "<b>Endereço:</b> " . $info['server'] . "<br>";
-                            echo "<b>Porta:</b> " . $info['port'] . "<br>";
-                            echo "<b>Versão:</b> " . $info['version'] . "<br>";
+							$database_info = $querier->getDatabaseInfo();
+							
+                            echo "<b>Banco:</b> " . $database_info['db'] . "<br>";
+                            echo "<b>Endereço:</b> " . $database_info['server'] . "<br>";
+                            echo "<b>Porta:</b> " . $database_info['port'] . "<br>";
+                            echo "<b>Versão:</b> " . $database_info['version'] . "<br>";
+							echo "<b>Codificação:</b> " . $database_info['client_encoding'] . "<br>";
+							echo "<b>Tamanho:</b> " . $database_info['size'] . "<br>";
                         ?>
                     </p>
                 </div>
@@ -87,6 +86,7 @@
         <div class="span8 main">
             <div class="row-fluid page-header">
                 <div class="well">
+				<h3>SQL</h3>
 				<form method="post" action="index.php">
 					<textarea name="sql" rows="5" class="span12"></textarea>
 					    <input type="submit" class="btn btn-primary btn-large btn-block" value="Executar"/>

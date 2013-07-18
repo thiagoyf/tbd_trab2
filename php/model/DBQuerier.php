@@ -18,7 +18,8 @@ class DBQuerier {
     protected static $query_schema_table_structure_column_is_pk = "SELECT bool(count(*)>0) is_pk FROM information_schema.key_column_usage K NATURAL JOIN information_schema.table_constraints C WHERE C.table_schema || '.' || C.table_name = ? || '.' ||? AND C.constraint_type='PRIMARY KEY' and K.column_name=?";
     protected static $query_database_info = "SELECT current_database as db, inet_server_addr as server, inet_server_port as port, version from current_database(), inet_server_addr(), inet_server_port(), version()";
 	protected static $client_encoding = "SHOW client_encoding";
-	protected static $size_database = "SELECT * from pg_size_pretty(pg_database_size('?'))";
+	protected static $size_database = "SELECT * FROM pg_size_pretty(pg_database_size(?)) as size";
+	
     public function __construct(\PDO $conn) {
         $this->_conn = $conn;
     }
@@ -108,6 +109,13 @@ class DBQuerier {
 	private function executeQuery($query) {
 		$st = $this->_conn->prepare($query);
         $st->execute();
+		
+		if($st->errorInfo()[0] != '00000' ){
+			echo "<div>";
+			echo "<pre class='alert alert-error'>" .  $st->errorInfo()[2] . "</pre><br>";
+			echo "</div>";
+		}
+		
 		$res = $st->fetchAll(\PDO::FETCH_ASSOC);
 
 		if(empty($res))
@@ -116,7 +124,7 @@ class DBQuerier {
 		return $res;
 	} 
 	
-    public function getDatabaseInfo() {
+    public function getConnectionInfo() {
         $st = $this->_conn->prepare(self::$query_database_info);
         $st->execute();
 		
@@ -137,4 +145,14 @@ class DBQuerier {
 		
 		return $st->fetch(\PDO::FETCH_ASSOC);
 	}
+	
+	public function getDatabaseInfo() {
+        $connection_info = self::getConnectionInfo();
+		$client_encoding = self::getClientEncoding();
+		$size_database = self::getSizeDataBase($connection_info['db']);
+		
+		$database_info = array_merge($connection_info, $client_encoding, $size_database);
+		
+		return $database_info;
+    }
 }

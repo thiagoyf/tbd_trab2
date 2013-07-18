@@ -1,2 +1,4 @@
 <?php
-    PageHelper::printResultsQueriesTables($querier->getConsultString($_POST['sql']));
+	$sql = $_POST['sql'];
+
+    PageHelper::printResultsQueriesTables($querier->getConsultString($sql));
