@@ -83,12 +83,6 @@
                             include_once('view/' . $page . ".php");
                         echo '</div></div>';
                     }
-					
-					//var_dump($querier->getConsultString($_POST["sql"]));
-					//$tables = $querier->getConsultString($_POST["sql"]);
-					//$querier->printResultsQueriesTables($tables);
-
-					
                 ?>
 
         </div>

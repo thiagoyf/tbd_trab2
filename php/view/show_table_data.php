@@ -1,4 +1,7 @@
 <?php
-    $arr = $querier->getAllDataFromTableInSchema($_GET['table'], $_GET['schema']);
-    PageHelper::printTable($arr);
+	$table = $_GET['table'];
+	$schema = $_GET['schema'];
+
+    $arr = $querier->getAllDataFromTableInSchema($table, $schema);
+    PageHelper::printTableData($table, $arr);
 

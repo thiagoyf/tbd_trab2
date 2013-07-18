@@ -1,5 +1,8 @@
 <?php
-    $arr = $querier->getStructureFromTableInSchema($_GET['table'], $_GET['schema']);
-    PageHelper::printTableStrucutre($arr);
+	$table = $_GET['table'];
+	$schema = $_GET['schema'];
+
+    $arr = $querier->getStructureFromTableInSchema($table, $schema);
+    PageHelper::printTableStrucutre($table, $arr);
 
 

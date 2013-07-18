@@ -8,9 +8,11 @@
  */
 
 class PageHelper {
-    public static function printTableStrucutre($array) {
+    public static function printTableStrucutre($table, $array) {
     echo
-    '<table class="table table-striped table-hover table-bordered">
+    "
+	<h2>$table</h2>
+	<table class='table table-striped table-hover table-bordered'>
         <thead>
             <tr>
                 <th>Nome</th>
@@ -20,7 +22,7 @@ class PageHelper {
                 <th>É Chave Primária</th>
             </tr>
         </thead>
-        <tbody>';
+        <tbody>";
     foreach ($array as $row) {
         echo "<tr>";
         foreach ($row as $col) {
@@ -31,6 +33,12 @@ class PageHelper {
     echo '</tbody></table>';
     }
 
+	/* Imprime os dados da tabela */
+	public static function printTableData($table, $array) {
+		echo "<h2>$table</h2>";
+		self::printTable($array);
+	}
+	
     /* Imprime uma tabela com o resultado de uma query */
     public static function printTable($table){
         if (!empty($table)) {
