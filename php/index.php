@@ -71,6 +71,7 @@
 				</form>
             </div>
             <div class="row-fluid">
+                <div class="well">
                 <?php
                     if (isset($page)) {
                         include_once('view/' . $page . ".php");
@@ -81,6 +82,7 @@
 					//$querier->printResultsQueriesTables($tables);
 					
                 ?>
+                </div>
             </div>
         </div>
     </div>

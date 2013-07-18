@@ -52,6 +52,9 @@ class PageHelper {
             }
             echo "</tbody></table>";
         }
+        else {
+            echo "<strong>Sem Resultados</strong>";
+        }
     }
 
     /* Imprime as tabelas com o resultado das queries */
