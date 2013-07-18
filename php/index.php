@@ -18,6 +18,9 @@
                 $page = null;
         }
     }
+    if (isset($_POST['sql'])) {
+        $page = "show_query_result";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -34,7 +37,8 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span4 hierarchy-tree">
-            <div class="well sidebar-nav">
+            <div class="well sidebar-nav page-header">
+                <h1 class="">Schemas</h1>
                 <div class="accordion" id="database">
                     <?php foreach ($querier->getAllSchemas() as $schema) { ?>
                     <div class="accordion-group">
@@ -64,26 +68,29 @@
         </div>
 
         <div class="span8 main">
-            <div class="hero-unit">
-				<form method="post" action="#">
-					<textarea name="sql" rows="10" class="span12"></textarea>
-					<input type="submit" class="btn btn-primary" value="Executar"/>
-				</form>
-            </div>
-            <div class="row-fluid">
+            <div class="row-fluid page-header">
                 <div class="well">
+				<form method="post" action="index.php">
+					<textarea name="sql" rows="5" class="span12"></textarea>
+					    <input type="submit" class="btn btn-primary btn-large btn-block" value="Executar"/>
+                </form>
+                </div>
+            </div>
+
                 <?php
                     if (isset($page)) {
-                        include_once('view/' . $page . ".php");
+                        echo '<div class="row-fluid"><div class="well">';
+                            include_once('view/' . $page . ".php");
+                        echo '</div></div>';
                     }
 					
 					//var_dump($querier->getConsultString($_POST["sql"]));
 					//$tables = $querier->getConsultString($_POST["sql"]);
 					//$querier->printResultsQueriesTables($tables);
+
 					
                 ?>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>

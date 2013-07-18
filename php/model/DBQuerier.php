@@ -87,13 +87,13 @@ class DBQuerier {
 			
 			foreach ($queries_string as $value) {
 				$table = self::executeQuery(trim($value));
-				if($table != NULL) {
+				if($table != null) {
 					$tables[] = $table;
 				} 
 			}
 			
 			if(empty($tables))
-				return NULL;
+				return null;
 			
 			return $tables;
 		}
@@ -103,20 +103,13 @@ class DBQuerier {
 	
 	/* Executa a query */
 	private function executeQuery($query) {
-		$st = $this->_conn->prepare($query);
-		$st->execute();
-		
+		$st = $this->_conn->query($query);
 		$res = $st->fetchAll(\PDO::FETCH_ASSOC);
-		
-		$table = array();
-		foreach ($res as $row) {
-			$table[] = $row;
-		}
-		
-		if(empty($table))
-			return NULL;
+
+		if(empty($res))
+			return null;
 			
-		return $table;
+		return $res;
 	} 
 	
 
