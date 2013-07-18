@@ -37,6 +37,19 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span4 hierarchy-tree">
+            <div class="row-fluid page-header">
+                <div class="well">
+                    <p>
+                        <?php
+                            $info = $querier->getDatabaseInfo();
+                            echo "<b>Banco:</b> ". $info['db'] . "<br>";
+                            echo "<b>Endereço:</b> ". $info['server'] . "<br>";
+                            echo "<b>Porta:</b> ". $info['port'] . "<br>";
+                            echo "<b>Versão:</b> ". $info['version'] . "<br>";
+                        ?>
+                    </p>
+                </div>
+            </div>
             <div class="well sidebar-nav page-header">
                 <h1 class="">Schemas</h1>
                 <div class="accordion" id="database">
@@ -84,7 +97,6 @@
                         echo '</div></div>';
                     }
                 ?>
-
         </div>
     </div>
 </div>

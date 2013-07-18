@@ -16,6 +16,7 @@ class DBQuerier {
     protected static $query_schema_table_all = "SELECT * FROM %s.%s";
     protected static $query_schema_table_structure = "SELECT column_name, data_type, is_nullable, column_default, null is_pk FROM information_schema.columns WHERE table_schema || '.' || table_name = ? || '.' ||?";
     protected static $query_schema_table_structure_column_is_pk = "SELECT bool(count(*)>0) is_pk FROM information_schema.key_column_usage K NATURAL JOIN information_schema.table_constraints C WHERE C.table_schema || '.' || C.table_name = ? || '.' ||? AND C.constraint_type='PRIMARY KEY' and K.column_name=?";
+    protected static $query_database_info = "SELECT current_database as db, inet_server_addr as server, inet_server_port as port, version from current_database(), inet_server_addr(), inet_server_port(), version()";
     public function __construct(\PDO $conn) {
         $this->_conn = $conn;
     }
@@ -103,7 +104,8 @@ class DBQuerier {
 	
 	/* Executa a query */
 	private function executeQuery($query) {
-		$st = $this->_conn->query($query);
+		$st = $this->_conn->prepare($query);
+        $st->execute();
 		$res = $st->fetchAll(\PDO::FETCH_ASSOC);
 
 		if(empty($res))
@@ -112,5 +114,9 @@ class DBQuerier {
 		return $res;
 	} 
 	
-
+    public function getDatabaseInfo() {
+        $st = $this->_conn->prepare(self::$query_database_info);
+        $st->execute();
+        return $st->fetch(\PDO::FETCH_ASSOC);
+    }
 }
