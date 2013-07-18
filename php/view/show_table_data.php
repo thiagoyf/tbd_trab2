@@ -1,2 +1,4 @@
 <?php
-    var_dump($_GET);
+    $arr = $querier->getAllDataFromTableInSchema($_GET['table'], $_GET['schema']);
+    PageHelper::printTable($arr);
+

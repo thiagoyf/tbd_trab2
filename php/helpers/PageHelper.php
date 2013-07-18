@@ -32,24 +32,25 @@ class PageHelper {
     }
 
     /* Imprime uma tabela com o resultado de uma query */
-    private function printTable($table){
-        echo "<tr>";
-        $titles = array_keys($table[0]);
-        foreach($titles as $title) {
-            echo "<th>";
-            echo $title;
-            echo "</th>";
-        }
-        echo "</tr>";
-
-        foreach($table as $line) {
-            echo "<tr>";
-            foreach($line as $value) {
-                echo "<td>";
-                echo $value;
-                echo "</td>";
+    public static function printTable($table){
+        if (!empty($table)) {
+            echo "<table class='table table-striped table-hover table-bordered'>";
+            echo "<thead><tr>";
+            $titles = array_keys($table[0]);
+            foreach($titles as $title) {
+                echo "<th>$title</th>";
             }
-            echo "</tr>";
+            echo "</tr></thead>";
+
+            echo "<tbody>";
+            foreach($table as $line) {
+                echo "<tr>";
+                foreach($line as $value) {
+                    echo "<td>$value</td>";
+                }
+                echo "</tr>";
+            }
+            echo "</tbody></table>";
         }
     }
 
@@ -57,9 +58,7 @@ class PageHelper {
     public static function printResultsQueriesTables($tables){
         if(empty($tables) == false){
             foreach($tables as $table) {
-                echo "<table class='table table-striped table-hover table-bordered'>";
                 self::printTable($table);
-                echo "</table>";
             }
         }
     }
