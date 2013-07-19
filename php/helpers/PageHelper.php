@@ -41,12 +41,15 @@ class PageHelper {
 	
     /* Imprime uma tabela com o resultado de uma query */
     public static function printTable($table){
-		$mensage = array_pop($table);
-		
-		if(isset($mensage)) {
-			echo $mensage['string'];
+		$mensage = null;
+		$query_type = null;
+	
+		if(isset($table['mensage'])) {
+			$mensage = array_pop($table);
+			$query_type = array_pop($table);
+			echo $mensage['mensage_string'];
 		}
-		
+	
         if (!empty($table)) {
             echo "<table class='table table-striped table-hover table-bordered'>";
             echo "<thead><tr>";
@@ -67,7 +70,7 @@ class PageHelper {
             echo "</tbody></table>";
         }
         else {
-			if($mensage['type'] != 'error'){
+			if($mensage['mensage_type'] == 'sucess' && $query_type == 'SELECT'){
 				echo "<strong>Sem Resultados</strong>";
 			}
         }

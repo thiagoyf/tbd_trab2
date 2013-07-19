@@ -110,21 +110,10 @@ class DBQuerier {
 		$st = $this->_conn->prepare($query);
         $st->execute();
 		
-		$mensage = array();
-		if($st->errorInfo()[0] == '00000'){
-			$mensage['type'] = "success";
-			$mensage['string'] .= "<div>";
-			$mensage['string'] .= "<pre class='alert alert-success'><b>SUCESS!</b><br>" .  $query . "</pre><br>";
-			$mensage['string'] .= "</div>";
-		}
-		else {
-			$mensage['type'] = "error";
-			$mensage['string'] .= "<div>";
-			$mensage['string'] .= "<pre class='alert alert-error'><b>ERROR!</b><br>" .  $st->errorInfo()[2] . "</pre><br>";
-			$mensage['string'] .= "</div>";
-		}
+		$mensage = self::getTypeMensage($st, $query);
 		
 		$res = $st->fetchAll(\PDO::FETCH_ASSOC);
+		$res['query_type'] = self::getQueryType($query);
 		$res['mensage'] = $mensage;
 
 		if(empty($res) || $query == '')
@@ -164,4 +153,29 @@ class DBQuerier {
 		
 		return $database_info;
     }
+	
+	public function getTypeMensage($st, $query){
+		$mensage = array();
+		
+		if($st->errorInfo()[0] == '00000'){
+			$mensage['mensage_type'] = "success";
+			$mensage['mensage_string'] = "<div>";
+			$mensage['mensage_string'] .= "<pre class='alert alert-success'><b>SUCESS!</b><br>" .  $query . "</pre><br>";
+			$mensage['mensage_string'] .= "</div>";
+		}
+		else {
+			$mensage['mensage_type'] = "error";
+			$mensage['mensage_string'] = "<div>";
+			$mensage['mensage_string'] .= "<pre class='alert alert-error'><b>ERROR!</b><br>" .  $st->errorInfo()[2] . "</pre><br>";
+			$mensage['mensage_string'] .= "</div>";
+		}
+		
+		return $mensage;
+	}
+	
+	public function getQueryType($query){
+		$query_part = explode(" ", $query);
+		
+		return strtoupper($query_part[0]);
+	}
 }
