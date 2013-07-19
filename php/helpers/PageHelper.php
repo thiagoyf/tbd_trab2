@@ -41,13 +41,13 @@ class PageHelper {
 	
     /* Imprime uma tabela com o resultado de uma query */
     public static function printTable($table){
-		$mensage = null;
+		$message = null;
 		$query_type = null;
 	
-		if(isset($table['mensage'])) {
-			$mensage = array_pop($table);
+		if(isset($table['message'])) {
+			$message = array_pop($table);
 			$query_type = array_pop($table);
-			echo $mensage['mensage_string'];
+			echo $message['message_string'];
 		}
 	
         if (!empty($table)) {
@@ -70,7 +70,7 @@ class PageHelper {
             echo "</tbody></table>";
         }
         else {
-			if($mensage['mensage_type'] == 'sucess' && $query_type == 'SELECT'){
+			if($message['message_type'] == 'success' && $query_type == 'SELECT'){
 				echo "<strong>Sem Resultados</strong>";
 			}
         }
