@@ -110,15 +110,24 @@ class DBQuerier {
 		$st = $this->_conn->prepare($query);
         $st->execute();
 		
-		if($st->errorInfo()[0] != '00000' ){
-			echo "<div>";
-			echo "<pre class='alert alert-error'>" .  $st->errorInfo()[2] . "</pre><br>";
-			echo "</div>";
+		$mensage = array();
+		if($st->errorInfo()[0] == '00000'){
+			$mensage['type'] = "success";
+			$mensage['string'] .= "<div>";
+			$mensage['string'] .= "<pre class='alert alert-success'><b>SUCESS!</b><br>" .  $query . "</pre><br>";
+			$mensage['string'] .= "</div>";
+		}
+		else {
+			$mensage['type'] = "error";
+			$mensage['string'] .= "<div>";
+			$mensage['string'] .= "<pre class='alert alert-error'><b>ERROR!</b><br>" .  $st->errorInfo()[2] . "</pre><br>";
+			$mensage['string'] .= "</div>";
 		}
 		
 		$res = $st->fetchAll(\PDO::FETCH_ASSOC);
+		$res['mensage'] = $mensage;
 
-		if(empty($res))
+		if(empty($res) || $query == '')
 			return null;
 			
 		return $res;

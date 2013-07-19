@@ -41,6 +41,12 @@ class PageHelper {
 	
     /* Imprime uma tabela com o resultado de uma query */
     public static function printTable($table){
+		$mensage = array_pop($table);
+		
+		if(isset($mensage)) {
+			echo $mensage['string'];
+		}
+		
         if (!empty($table)) {
             echo "<table class='table table-striped table-hover table-bordered'>";
             echo "<thead><tr>";
@@ -61,7 +67,9 @@ class PageHelper {
             echo "</tbody></table>";
         }
         else {
-            echo "<strong>Sem Resultados</strong>";
+			if($mensage['type'] != 'error'){
+				echo "<strong>Sem Resultados</strong>";
+			}
         }
     }
 
